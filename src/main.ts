@@ -4,7 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { envs } from './envs';
 import { Logger } from '@nestjs/common';
 
-const logger = new Logger();
+const logger = new Logger(bootstrap.name);
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,6 +17,6 @@ async function bootstrap() {
   );
 
   await app.listen(envs.port);
-  logger.log(`${bootstrap.name} App running on port ${envs.port}`);
+  logger.log(`App running on port ${envs.port}`);
 }
 bootstrap();
