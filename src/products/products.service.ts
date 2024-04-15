@@ -1,8 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
+import { RpcException } from '@nestjs/microservices';
+import { PaginationDto } from 'src/common';
 import { DatabaseService } from 'src/database/database.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { PaginationDto } from 'src/common';
 
 @Injectable()
 export class ProductsService {
@@ -47,7 +48,11 @@ export class ProductsService {
 
     // throw error if product not found.
     if (!productFound) {
-      throw new NotFoundException('Not found product with this id');
+      // throw new NotFoundException('Not found product with this id');
+      throw new RpcException({
+        message: `Not found product with this id ${id}`,
+        status: HttpStatus.BAD_REQUEST,
+      });
     }
 
     return productFound;
